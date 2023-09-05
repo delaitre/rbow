@@ -1,14 +1,10 @@
-use colored::Color;
-use rbow::{config::Config, config::ConfigPath, rule::Rule, stylize::Stylize};
+use rbow::{config::Config, config::ConfigPath, stylize::Stylize};
 use std::{error::Error, io, io::prelude::*};
 
 fn main() -> Result<(), Box<dyn Error>> {
     let config = Config::load(ConfigPath::new(".", ".rbow"));
-
-    let warning_rule = Rule::new(r"([Ww][Aa][Rr][Nn][Ii][Nn][Gg])", vec![Color::Yellow])?;
-    let error_rule = Rule::new(r"([Ee][Rr][Rr][Oo][Rr])", vec![Color::Red])?;
-
-    let rules = vec![warning_rule, error_rule];
+    //let config = Config::example();
+    let rules = config.as_rules();
 
     for line in io::stdin().lock().lines() {
         let line = line?;
